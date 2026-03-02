@@ -1,0 +1,19 @@
+fastapi[standard]
+uvicorn[standard]
+# ── Core ML ──
+numpy
+pandas
+matplotlib
+seaborn
+pillow
+opencv-python
+scikit-learn
+tensorflow>=2.13.0
+
+# ── Backend ──
+fastapi>=0.115.0
+uvicorn[standard]>=0.30.0
+python-multipart>=0.0.9
+
+# ── Utilities ──
+albumentations
