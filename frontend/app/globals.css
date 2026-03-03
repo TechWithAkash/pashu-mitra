@@ -161,20 +161,29 @@
 
 /* ── Google Translate widget overrides ──
    Hide all default Google Translate UI (banner, toolbar, branding).
-   Our custom LanguageToggle drives the widget programmatically. */
+   Our custom LanguageToggle drives the widget programmatically.
+   IMPORTANT: Use visibility/position to hide — NOT display:none —
+   because the widget's <select> must remain in the DOM for JS access. */
 .goog-te-banner-frame {
   display: none !important;
 }
-.skiptranslate {
-  display: none !important;
+body > .skiptranslate {
+  height: 0 !important;
+  overflow: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+  position: absolute !important;
 }
 .goog-te-gadget {
   font-size: 0 !important;
 }
 #google_translate_element {
-  position: absolute !important;
-  top: -9999px !important;
-  left: -9999px !important;
+  position: fixed !important;
+  top: -200px !important;
+  left: -200px !important;
+  width: 1px !important;
+  height: 1px !important;
+  overflow: hidden !important;
 }
 /* Remove yellow highlight on translated text */
 .goog-text-highlight {
