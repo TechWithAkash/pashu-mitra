@@ -26,7 +26,7 @@ export function LanguageProvider({ children }) {
       if (cached) {
         setStrings(cached);
       } else {
-        // Fetch translations async
+        // Fetch translations async via our server-side API route
         setIsTranslating(true);
         translateAll(saved).then((translated) => {
           setStrings(translated);
@@ -52,7 +52,7 @@ export function LanguageProvider({ children }) {
       return;
     }
 
-    // Fetch from Google Translate API
+    // Fetch from our API route (server proxies to Google Translate)
     setIsTranslating(true);
     const translated = await translateAll(code);
     setStrings(translated);

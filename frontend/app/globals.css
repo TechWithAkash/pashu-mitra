@@ -155,7 +155,43 @@
   body {
     @apply bg-background text-foreground antialiased;
     font-feature-settings: "rlig" 1, "calt" 1;
+    top: 0 !important;
   }
+}
+
+/* ── Google Translate widget overrides ──
+   Hide all default Google Translate UI (banner, toolbar, branding).
+   Our custom LanguageToggle drives the widget programmatically. */
+.goog-te-banner-frame {
+  display: none !important;
+}
+.skiptranslate {
+  display: none !important;
+}
+.goog-te-gadget {
+  font-size: 0 !important;
+}
+#google_translate_element {
+  position: absolute !important;
+  top: -9999px !important;
+  left: -9999px !important;
+}
+/* Remove yellow highlight on translated text */
+.goog-text-highlight {
+  background-color: transparent !important;
+  box-shadow: none !important;
+}
+/* Remove the "Translated by Google" tooltip */
+.goog-te-ftab-link {
+  display: none !important;
+}
+#goog-gt-tt,
+.goog-te-balloon-frame {
+  display: none !important;
+}
+/* Prevent Google Translate iframe from shifting layout */
+.goog-te-menu-frame {
+  box-shadow: none !important;
 }
 
 /* Premium utility classes */

@@ -1,6 +1,6 @@
 "use client";
 
-import { Globe, Loader2 } from "lucide-react";
+import { Globe, Check, Loader2 } from "lucide-react";
 import { useLanguage } from "@/context/language-context";
 import {
   DropdownMenu,
@@ -14,36 +14,53 @@ export default function LanguageToggle({ variant = "ghost", className = "" }) {
   const { language, changeLanguage, isTranslating, SUPPORTED_LANGUAGES } =
     useLanguage();
 
+  const currentLang = SUPPORTED_LANGUAGES.find((l) => l.code === language);
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button
           variant={variant}
-          size="icon"
-          className={`h-8 w-8 rounded-lg ${className}`}
+          size="sm"
+          className={`gap-1.5 rounded-lg px-2.5 h-8 text-xs font-medium ${className}`}
           disabled={isTranslating}
         >
           {isTranslating ? (
-            <Loader2 className="h-4 w-4 animate-spin" />
+            <Loader2 className="h-3.5 w-3.5 animate-spin" />
           ) : (
-            <Globe className="h-4 w-4" />
+            <Globe className="h-3.5 w-3.5" />
           )}
+          <span className="hidden sm:inline">
+            {isTranslating
+              ? "Translating..."
+              : currentLang?.nativeLabel || "English"}
+          </span>
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="w-40 rounded-xl shadow-elevated">
+      <DropdownMenuContent
+        align="end"
+        className="w-48 rounded-xl shadow-elevated max-h-80 overflow-y-auto"
+      >
         {SUPPORTED_LANGUAGES.map((lang) => (
           <DropdownMenuItem
             key={lang.code}
             onClick={() => changeLanguage(lang.code)}
-            className={`rounded-lg cursor-pointer ${
+            className={`rounded-lg cursor-pointer flex items-center justify-between ${
               language === lang.code
                 ? "bg-primary/10 text-primary font-medium"
                 : ""
             }`}
           >
-            <span>{lang.nativeLabel}</span>
+            <div className="flex flex-col">
+              <span className="text-sm">{lang.nativeLabel}</span>
+              {lang.code !== "en" && (
+                <span className="text-[10px] text-muted-foreground leading-tight">
+                  {lang.label}
+                </span>
+              )}
+            </div>
             {language === lang.code && (
-              <span className="ml-auto text-xs text-primary">✓</span>
+              <Check className="h-3.5 w-3.5 text-primary shrink-0" />
             )}
           </DropdownMenuItem>
         ))}
