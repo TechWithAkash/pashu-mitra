@@ -1,9 +1,11 @@
 "use client";
 
+import { useMemo } from "react";
 import { Card, CardContent } from "@/components/ui/card";
-import { ScanLine, ShieldAlert, HeartPulse, Activity } from "lucide-react";
+import { ScanLine, ShieldAlert, HeartPulse, Activity, TrendingUp, TrendingDown, Minus } from "lucide-react";
 import { motion } from "framer-motion";
 import { useLanguage } from "@/context/language-context";
+import { isLSD, getTrendDirection } from "@/lib/dashboard-utils";
 
 const statsConfig = [
   {
@@ -61,14 +63,27 @@ const cardVariants = {
   },
 };
 
+const TREND_ICON = {
+  improving: TrendingUp,
+  declining: TrendingDown,
+  stable: Minus,
+};
+const TREND_COLOR = {
+  improving: "text-healthy",
+  declining: "text-destructive",
+  stable: "text-muted-foreground",
+};
+
 export default function StatsCards({ predictions }) {
   const { t } = useLanguage();
   const total = predictions.length;
-  const lsdCount = predictions.filter(
-    (p) => p.prediction_result?.toLowerCase().includes("lumpy")
-  ).length;
+  const lsdCount = predictions.filter(isLSD).length;
   const healthyCount = total - lsdCount;
   const rate = total > 0 ? (((total - lsdCount) / total) * 100).toFixed(1) : "100.0";
+
+  const trend = useMemo(() => getTrendDirection(predictions), [predictions]);
+  const TrendIcon = TREND_ICON[trend];
+  const trendKey = `dashboard.${trend}`;
 
   const values = {
     total,
@@ -100,6 +115,15 @@ export default function StatsCards({ predictions }) {
                     <p className="text-2xl font-bold font-mono tracking-tight">
                       {values[stat.key]}
                     </p>
+                    {/* Trend indicator on the health score card */}
+                    {stat.key === "rate" && total > 0 && (
+                      <div className={`flex items-center gap-1 ${TREND_COLOR[trend]}`}>
+                        <TrendIcon className="h-3 w-3" />
+                        <span className="text-[10px] font-medium">
+                          {t(trendKey)}
+                        </span>
+                      </div>
+                    )}
                   </div>
                   <div className={`p-2.5 rounded-xl ${stat.iconBg}`}>
                     <Icon className={`h-4 w-4 ${stat.color}`} />

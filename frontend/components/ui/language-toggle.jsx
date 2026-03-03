@@ -30,7 +30,7 @@ export default function LanguageToggle({ variant = "ghost", className = "" }) {
           ) : (
             <Globe className="h-3.5 w-3.5" />
           )}
-          <span className="hidden sm:inline">
+          <span className="notranslate hidden sm:inline">
             {isTranslating
               ? "Translating..."
               : currentLang?.nativeLabel || "English"}
@@ -39,7 +39,7 @@ export default function LanguageToggle({ variant = "ghost", className = "" }) {
       </DropdownMenuTrigger>
       <DropdownMenuContent
         align="end"
-        className="w-48 rounded-xl shadow-elevated max-h-80 overflow-y-auto"
+        className="notranslate w-48 rounded-xl shadow-elevated max-h-80 overflow-y-auto"
       >
         {SUPPORTED_LANGUAGES.map((lang) => (
           <DropdownMenuItem
