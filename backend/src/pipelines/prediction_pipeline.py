@@ -179,33 +179,40 @@ class PredictionPipeline:
             raise CustomException(str(e), sys)
 
     def _generate_advice(self, prediction: str, confidence: float) -> str:
-        """Generate farmer-friendly advice based on prediction result."""
+        """Generate simple, numbered advice steps for farmers."""
         threshold = self.config.confidence_threshold
 
         if "lumpy" in prediction.lower():
             if confidence >= threshold:
                 return (
-                    "Lumpy Skin Disease detected with high confidence. "
-                    "Isolate the animal immediately and contact your nearest "
-                    "veterinarian within 48 hours. Early treatment significantly "
-                    "improves outcomes. Avoid moving the animal to prevent spread."
+                    "1. Keep this animal away from other animals right now.\n"
+                    "2. Call your veterinarian today — do not wait.\n"
+                    "3. Do not move this animal to another location.\n"
+                    "4. Watch other animals for lumps or fever.\n"
+                    "5. Early treatment helps — act quickly."
                 )
             else:
                 return (
-                    "Possible signs of Lumpy Skin Disease detected, but confidence "
-                    "is low. Monitor the animal closely for raised lumps or nodules. "
-                    "Consider veterinary consultation as a precaution."
+                    "1. Watch this animal carefully for a few days.\n"
+                    "2. Look for raised lumps or bumps on the skin.\n"
+                    "3. Check if the animal has fever or is not eating.\n"
+                    "4. Take a clearer photo and check again.\n"
+                    "5. If you see lumps, call your veterinarian."
                 )
         else:
             if confidence >= threshold:
                 return (
-                    "Skin appears healthy with no signs of Lumpy Skin Disease. "
-                    "Continue regular monitoring. If you notice raised lumps or "
-                    "nodules in the future, submit a new image for analysis."
+                    "1. Your animal looks healthy — no signs of disease found.\n"
+                    "2. Keep checking your animals regularly.\n"
+                    "3. If you see lumps or bumps later, take a photo and check again.\n"
+                    "4. Make sure your animals are vaccinated.\n"
+                    "5. Good job keeping your animals healthy!"
                 )
             else:
                 return (
-                    "No definitive signs of disease detected, but the result is "
-                    "uncertain. Consider taking a clearer, well-lit photo of the "
-                    "affected area and trying again for a more reliable diagnosis."
+                    "1. We are not sure about this result.\n"
+                    "2. Take a new photo in good daylight.\n"
+                    "3. Make sure the skin area is clearly visible.\n"
+                    "4. Try again with the new photo.\n"
+                    "5. If you are worried, call your veterinarian."
                 )

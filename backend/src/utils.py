@@ -136,6 +136,7 @@ def check_image_quality(
 def generate_gradcam(model, img_array, class_index=None, layer_name=None):
     """
     Generate Grad-CAM heatmap for model interpretability.
+    Compatible with Keras 3 and nested base models (e.g., MobileNetV2).
 
     Args:
         model: Keras model
@@ -148,27 +149,69 @@ def generate_gradcam(model, img_array, class_index=None, layer_name=None):
     """
     import tensorflow as tf
 
-    # Auto-detect last conv layer
-    if layer_name is None:
-        for layer in reversed(model.layers):
-            if len(layer.output_shape) == 4:
-                layer_name = layer.name
-                break
+    img_tensor = tf.convert_to_tensor(img_array, dtype=tf.float32)
+
+    # Detect nested base model (transfer learning pattern: Input -> BaseModel -> Head)
+    base_model_layer = None
+    base_model_idx = None
+    for i, layer in enumerate(model.layers):
+        if hasattr(layer, "layers") and len(layer.layers) > 1:
+            try:
+                if len(layer.output.shape) == 4:
+                    base_model_layer = layer
+                    base_model_idx = i
+                    break
+            except AttributeError:
+                continue
+
+    if base_model_layer is not None:
+        # Nested base model (e.g., MobileNetV2 used as a layer).
+        # Keras 3 cannot build a multi-output sub-model from a nested model's
+        # symbolic tensors, so we manually chain layers under GradientTape.
+        with tf.GradientTape() as tape:
+            conv_outputs = base_model_layer(img_tensor, training=False)
+            tape.watch(conv_outputs)
+
+            x = conv_outputs
+            for layer in model.layers[base_model_idx + 1:]:
+                x = layer(x, training=False)
+
+            predictions = x
+            if class_index is None:
+                class_index = tf.argmax(predictions[0])
+            class_score = predictions[:, class_index]
+
+        grads = tape.gradient(class_score, conv_outputs)
+    else:
+        # Flat model (no nested base model) — use standard sub-model approach
         if layer_name is None:
-            raise ValueError("Could not find a convolutional layer in the model")
+            for layer in reversed(model.layers):
+                try:
+                    shape = layer.output.shape
+                except AttributeError:
+                    continue
+                if len(shape) == 4:
+                    layer_name = layer.name
+                    break
+            if layer_name is None:
+                raise ValueError(
+                    "Could not find a convolutional layer in the model"
+                )
 
-    grad_model = tf.keras.Model(
-        inputs=model.input,
-        outputs=[model.get_layer(layer_name).output, model.output],
-    )
+        grad_model = tf.keras.Model(
+            inputs=model.inputs,
+            outputs=[model.get_layer(layer_name).output, model.output],
+        )
 
-    with tf.GradientTape() as tape:
-        conv_outputs, predictions = grad_model(img_array)
-        if class_index is None:
-            class_index = tf.argmax(predictions[0])
-        class_score = predictions[:, class_index]
+        with tf.GradientTape() as tape:
+            conv_outputs, predictions = grad_model(img_tensor)
+            if class_index is None:
+                class_index = tf.argmax(predictions[0])
+            class_score = predictions[:, class_index]
 
-    grads = tape.gradient(class_score, conv_outputs)
+        grads = tape.gradient(class_score, conv_outputs)
+
+    # Compute Grad-CAM heatmap from gradients and conv feature maps
     pooled_grads = tf.reduce_mean(grads, axis=(0, 1, 2))
 
     conv_outputs = conv_outputs[0]
