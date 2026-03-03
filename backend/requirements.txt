@@ -1,19 +1,32 @@
-fastapi[standard]
-uvicorn[standard]
-# ── Core ML ──
-numpy
-pandas
-matplotlib
-seaborn
-pillow
-opencv-python
-scikit-learn
-tensorflow>=2.13.0
-
 # ── Backend ──
 fastapi>=0.115.0
 uvicorn[standard]>=0.30.0
 python-multipart>=0.0.9
 
-# ── Utilities ──
+# ── Core ML ──
+tensorflow>=2.13.0
+numpy
+pandas
+scikit-learn
+
+# ── Image Processing ──
+pillow
+opencv-python
+
+# ── Visualization ──
+matplotlib
+seaborn
+
+# ── Data Augmentation ──
 albumentations
+
+# ── Database ──
+motor>=3.3.0
+
+# ── Auth & Security ──
+python-jose[cryptography]>=3.3.0
+bcrypt>=4.0.0
+
+# ── Configuration ──
+pydantic-settings>=2.0.0
+email-validator>=2.0.0

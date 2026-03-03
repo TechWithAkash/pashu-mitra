@@ -1,2 +1,15 @@
 venv
 notebooks
+datasets
+artifacts
+*.log
+*.env
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+ENV/
+env.bak/
