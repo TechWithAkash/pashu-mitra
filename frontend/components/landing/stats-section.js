@@ -2,6 +2,7 @@
 
 import { motion, useInView, useMotionValue, useTransform, animate } from "framer-motion";
 import { useRef, useEffect } from "react";
+import { Target, Timer, Clock, Layers } from "lucide-react";
 import { useLanguage } from "@/context/language-context";
 
 function AnimatedCounter({ value, prefix = "", suffix = "", isInView }) {
@@ -33,10 +34,10 @@ export default function StatsSection() {
   const isInView = useInView(ref, { once: true, margin: "-80px" });
 
   const stats = [
-    { value: 92, suffix: "%+", labelKey: "stats.accuracy" },
-    { value: 2, prefix: "<", suffix: "s", labelKey: "stats.analysisTime" },
-    { value: 24, suffix: "/7", labelKey: "stats.availability" },
-    { value: 2, suffix: "", labelKey: "stats.classes" },
+    { value: 92, suffix: "%+", labelKey: "stats.accuracy", icon: Target },
+    { value: 2, prefix: "<", suffix: "s", labelKey: "stats.analysisTime", icon: Timer },
+    { value: 24, suffix: "/7", labelKey: "stats.availability", icon: Clock },
+    { value: 2, suffix: "", labelKey: "stats.classes", icon: Layers },
   ];
 
   return (
@@ -72,33 +73,44 @@ export default function StatsSection() {
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-          className="grid grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8"
+          className="grid grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-0"
         >
-          {stats.map((stat, i) => (
-            <motion.div
-              key={stat.labelKey}
-              initial={{ opacity: 0, y: 30 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{
-                delay: i * 0.1,
-                duration: 0.6,
-                ease: [0.22, 1, 0.36, 1],
-              }}
-              className="text-center"
-            >
-              <p className="text-4xl sm:text-5xl lg:text-6xl font-bold font-mono text-white tracking-tight mb-2">
-                <AnimatedCounter
-                  value={stat.value}
-                  prefix={stat.prefix}
-                  suffix={stat.suffix}
-                  isInView={isInView}
-                />
-              </p>
-              <p className="text-sm font-medium text-white/40 uppercase tracking-wider">
-                {t(stat.labelKey)}
-              </p>
-            </motion.div>
-          ))}
+          {stats.map((stat, i) => {
+            const Icon = stat.icon;
+            return (
+              <motion.div
+                key={stat.labelKey}
+                initial={{ opacity: 0, y: 30 }}
+                animate={isInView ? { opacity: 1, y: 0 } : {}}
+                transition={{
+                  delay: i * 0.1,
+                  duration: 0.6,
+                  ease: [0.22, 1, 0.36, 1],
+                }}
+                className={`text-center ${
+                  i < stats.length - 1 ? "lg:border-r lg:border-white/10" : ""
+                }`}
+              >
+                {/* Icon above stat */}
+                <div className="flex justify-center mb-4">
+                  <div className="p-2.5 rounded-xl bg-white/[0.06] border border-white/[0.08]">
+                    <Icon className="h-5 w-5 text-emerald-400/70" />
+                  </div>
+                </div>
+                <p className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold font-mono text-white tracking-tight mb-2">
+                  <AnimatedCounter
+                    value={stat.value}
+                    prefix={stat.prefix}
+                    suffix={stat.suffix}
+                    isInView={isInView}
+                  />
+                </p>
+                <p className="text-sm font-medium text-white/40 uppercase tracking-wider">
+                  {t(stat.labelKey)}
+                </p>
+              </motion.div>
+            );
+          })}
         </motion.div>
       </div>
     </section>

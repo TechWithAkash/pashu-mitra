@@ -54,7 +54,7 @@ export default function LoginForm() {
         </p>
       </div>
 
-      <div className="rounded-2xl border border-border/60 bg-card p-8 shadow-elevated">
+      <div className="rounded-2xl border border-border/60 bg-card p-10 shadow-elevated">
         <form onSubmit={handleSubmit} className="space-y-5">
           <AnimatePresence mode="wait">
             {error && (
@@ -87,7 +87,7 @@ export default function LoginForm() {
               onChange={(e) => setEmail(e.target.value)}
               required
               autoComplete="email"
-              className="h-11 rounded-lg bg-background px-4 text-sm"
+              className="h-12 rounded-xl bg-background px-4 text-sm transition-shadow duration-200 focus:shadow-[0_0_0_3px_oklch(0.55_0.16_155/0.12)]"
             />
           </div>
 
@@ -109,7 +109,7 @@ export default function LoginForm() {
                 onChange={(e) => setPassword(e.target.value)}
                 required
                 autoComplete="current-password"
-                className="h-11 rounded-lg bg-background pr-11 px-4 text-sm"
+                className="h-12 rounded-xl bg-background pr-11 px-4 text-sm transition-shadow duration-200 focus:shadow-[0_0_0_3px_oklch(0.55_0.16_155/0.12)]"
               />
               <button
                 type="button"
@@ -128,7 +128,7 @@ export default function LoginForm() {
 
           <Button
             type="submit"
-            className="w-full h-11 rounded-lg text-sm font-medium mt-2 transition-all duration-200 hover:shadow-glow"
+            className="w-full h-12 rounded-xl text-sm font-medium mt-2 transition-all duration-200 hover:shadow-glow active:scale-[0.98]"
             disabled={isLoading}
           >
             {isLoading ? (
@@ -143,7 +143,14 @@ export default function LoginForm() {
         </form>
       </div>
 
-      <p className="text-center text-sm text-muted-foreground mt-6">
+      {/* Visual divider */}
+      <div className="flex items-center gap-3 my-6">
+        <div className="flex-1 h-px bg-border/50" />
+        <span className="text-xs text-muted-foreground/50 uppercase tracking-wider">{t("common.or")}</span>
+        <div className="flex-1 h-px bg-border/50" />
+      </div>
+
+      <p className="text-center text-sm text-muted-foreground">
         {t("auth.noAccount")}{" "}
         <Link
           href="/signup"

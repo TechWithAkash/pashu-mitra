@@ -4,6 +4,8 @@ import FeaturesSection from "@/components/landing/features-section";
 import HowItWorksSection from "@/components/landing/how-it-works-section";
 import AboutLsdSection from "@/components/landing/about-lsd-section";
 import StatsSection from "@/components/landing/stats-section";
+import TestimonialsSection from "@/components/landing/testimonials-section";
+import FAQSection from "@/components/landing/faq-section";
 import CtaSection from "@/components/landing/cta-section";
 import Footer from "@/components/landing/footer";
 
@@ -16,6 +18,8 @@ export default function Home() {
       <HowItWorksSection />
       <AboutLsdSection />
       <StatsSection />
+      <TestimonialsSection />
+      <FAQSection />
       <CtaSection />
       <Footer />
     </div>

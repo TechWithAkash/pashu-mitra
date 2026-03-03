@@ -4,6 +4,7 @@ import Link from "next/link";
 import { Shield, Star } from "lucide-react";
 import { motion } from "framer-motion";
 import { useLanguage } from "@/context/language-context";
+import FarmScene from "@/components/illustrations/farm-scene";
 
 export default function AuthLayout({ children }) {
   const { t } = useLanguage();
@@ -157,21 +158,40 @@ export default function AuthLayout({ children }) {
             </div>
           </motion.div>
         </motion.div>
+
+        {/* Farm scene illustration at bottom of left panel */}
+        <div className="absolute bottom-0 left-0 right-0 opacity-40">
+          <FarmScene className="w-full" />
+        </div>
       </div>
 
       {/* Right panel - form area */}
-      <div className="flex-1 flex items-center justify-center p-6 sm:p-8 lg:p-12 bg-background">
-        <div className="w-full max-w-[420px]">
-          {/* Mobile logo */}
-          <div className="lg:hidden flex items-center justify-center gap-2.5 mb-10">
-            <Link href="/" className="inline-flex items-center gap-2.5">
-              <div className="p-2 bg-primary rounded-xl">
-                <Shield className="h-6 w-6 text-primary-foreground" />
-              </div>
-              <span className="text-xl font-bold text-foreground tracking-tight">
-                Pashumitra
-              </span>
-            </Link>
+      <div className="flex-1 flex flex-col items-center justify-center p-6 sm:p-8 lg:p-12 bg-background relative">
+        {/* Subtle dot pattern on right panel */}
+        <div
+          className="absolute inset-0 opacity-[0.02]"
+          style={{
+            backgroundImage: "radial-gradient(circle, oklch(0.13 0.02 260) 1px, transparent 1px)",
+            backgroundSize: "24px 24px",
+          }}
+        />
+
+        <div className="relative w-full max-w-[420px]">
+          {/* Mobile: small farm scene + logo */}
+          <div className="lg:hidden mb-8">
+            <div className="flex items-center justify-center gap-2.5 mb-6">
+              <Link href="/" className="inline-flex items-center gap-2.5">
+                <div className="p-2 bg-primary rounded-xl">
+                  <Shield className="h-6 w-6 text-primary-foreground" />
+                </div>
+                <span className="text-xl font-bold text-foreground tracking-tight">
+                  Pashumitra
+                </span>
+              </Link>
+            </div>
+            <div className="rounded-2xl overflow-hidden border border-border/30 mb-2">
+              <FarmScene className="w-full opacity-60" />
+            </div>
           </div>
           {children}
         </div>

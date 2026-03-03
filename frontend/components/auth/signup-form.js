@@ -7,7 +7,7 @@ import { useAuth } from "@/context/auth-context";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Eye, EyeOff, Loader2, ArrowRight } from "lucide-react";
+import { Eye, EyeOff, Loader2, ArrowRight, Wheat, Stethoscope } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useLanguage } from "@/context/language-context";
 
@@ -20,8 +20,8 @@ const PASSWORD_RULES = [
 ];
 
 const ROLES = [
-  { value: "farmer", labelKey: "auth.farmer" },
-  { value: "veterinarian", labelKey: "auth.veterinarian" },
+  { value: "farmer", labelKey: "auth.farmer", icon: Wheat },
+  { value: "veterinarian", labelKey: "auth.veterinarian", icon: Stethoscope },
 ];
 
 function getStrengthColor(ratio) {
@@ -30,12 +30,12 @@ function getStrengthColor(ratio) {
   return "bg-emerald-500";
 }
 
-function getStrengthLabel(ratio) {
+function getStrengthLabel(ratio, t) {
   if (ratio === 0) return "";
-  if (ratio <= 0.33) return "Weak";
-  if (ratio <= 0.66) return "Fair";
-  if (ratio < 1) return "Good";
-  return "Strong";
+  if (ratio <= 0.33) return t("auth.strengthWeak");
+  if (ratio <= 0.66) return t("auth.strengthFair");
+  if (ratio < 1) return t("auth.strengthGood");
+  return t("auth.strengthStrong");
 }
 
 export default function SignupForm() {
@@ -113,7 +113,7 @@ export default function SignupForm() {
         </p>
       </div>
 
-      <div className="rounded-2xl border border-border/60 bg-card p-8 shadow-elevated">
+      <div className="rounded-2xl border border-border/60 bg-card p-10 shadow-elevated">
         <form onSubmit={handleSubmit} className="space-y-5">
           <AnimatePresence mode="wait">
             {error && (
@@ -147,7 +147,7 @@ export default function SignupForm() {
               required
               minLength={2}
               maxLength={100}
-              className="h-11 rounded-lg bg-background px-4 text-sm"
+              className="h-12 rounded-xl bg-background px-4 text-sm transition-shadow duration-200 focus:shadow-[0_0_0_3px_oklch(0.55_0.16_155/0.12)]"
             />
           </div>
 
@@ -167,7 +167,7 @@ export default function SignupForm() {
               onChange={(e) => updateField("email", e.target.value)}
               required
               autoComplete="email"
-              className="h-11 rounded-lg bg-background px-4 text-sm"
+              className="h-12 rounded-xl bg-background px-4 text-sm transition-shadow duration-200 focus:shadow-[0_0_0_3px_oklch(0.55_0.16_155/0.12)]"
             />
           </div>
 
@@ -188,7 +188,7 @@ export default function SignupForm() {
                 onChange={(e) => updateField("password", e.target.value)}
                 required
                 autoComplete="new-password"
-                className="h-11 rounded-lg bg-background pr-11 px-4 text-sm"
+                className="h-12 rounded-xl bg-background pr-11 px-4 text-sm transition-shadow duration-200 focus:shadow-[0_0_0_3px_oklch(0.55_0.16_155/0.12)]"
               />
               <button
                 type="button"
@@ -230,7 +230,7 @@ export default function SignupForm() {
                           : "text-emerald-500"
                     }`}
                   >
-                    {getStrengthLabel(strengthRatio)}
+                    {getStrengthLabel(strengthRatio, t)}
                   </span>
                 </div>
               </motion.div>
@@ -254,7 +254,7 @@ export default function SignupForm() {
                 onChange={(e) => updateField("confirmPassword", e.target.value)}
                 required
                 autoComplete="new-password"
-                className="h-11 rounded-lg bg-background pr-11 px-4 text-sm"
+                className="h-12 rounded-xl bg-background pr-11 px-4 text-sm transition-shadow duration-200 focus:shadow-[0_0_0_3px_oklch(0.55_0.16_155/0.12)]"
               />
               <button
                 type="button"
@@ -284,15 +284,15 @@ export default function SignupForm() {
             </AnimatePresence>
           </div>
 
-          {/* Role - Pill Toggle */}
+          {/* Role - Pill Toggle with Icons */}
           <div className="space-y-2.5">
             <Label className="text-sm font-medium text-foreground">
               {t("auth.iAmA")}
             </Label>
-            <div className="relative flex rounded-lg bg-muted p-1">
+            <div className="relative flex rounded-xl bg-muted p-1">
               {/* Animated pill background */}
               <motion.div
-                className="absolute top-1 bottom-1 rounded-md bg-background shadow-sm"
+                className="absolute top-1 bottom-1 rounded-lg bg-background shadow-sm"
                 layout
                 transition={{
                   type: "spring",
@@ -307,26 +307,30 @@ export default function SignupForm() {
                       : "calc(50% + 0px)",
                 }}
               />
-              {ROLES.map((role) => (
-                <button
-                  key={role.value}
-                  type="button"
-                  onClick={() => updateField("role", role.value)}
-                  className={`relative z-10 flex-1 py-2 text-sm font-medium rounded-md transition-colors duration-200 ${
-                    form.role === role.value
-                      ? "text-foreground"
-                      : "text-muted-foreground hover:text-foreground/70"
-                  }`}
-                >
-                  {t(role.labelKey)}
-                </button>
-              ))}
+              {ROLES.map((role) => {
+                const Icon = role.icon;
+                return (
+                  <button
+                    key={role.value}
+                    type="button"
+                    onClick={() => updateField("role", role.value)}
+                    className={`relative z-10 flex-1 flex items-center justify-center gap-2 py-2.5 text-sm font-medium rounded-lg transition-colors duration-200 ${
+                      form.role === role.value
+                        ? "text-foreground"
+                        : "text-muted-foreground hover:text-foreground/70"
+                    }`}
+                  >
+                    <Icon className="h-4 w-4" />
+                    {t(role.labelKey)}
+                  </button>
+                );
+              })}
             </div>
           </div>
 
           <Button
             type="submit"
-            className="w-full h-11 rounded-lg text-sm font-medium mt-2 transition-all duration-200 hover:shadow-glow"
+            className="w-full h-12 rounded-xl text-sm font-medium mt-2 transition-all duration-200 hover:shadow-glow active:scale-[0.98]"
             disabled={isLoading}
           >
             {isLoading ? (
@@ -341,7 +345,14 @@ export default function SignupForm() {
         </form>
       </div>
 
-      <p className="text-center text-sm text-muted-foreground mt-6">
+      {/* Visual divider */}
+      <div className="flex items-center gap-3 my-6">
+        <div className="flex-1 h-px bg-border/50" />
+        <span className="text-xs text-muted-foreground/50 uppercase tracking-wider">{t("common.or")}</span>
+        <div className="flex-1 h-px bg-border/50" />
+      </div>
+
+      <p className="text-center text-sm text-muted-foreground">
         {t("auth.hasAccount")}{" "}
         <Link
           href="/login"

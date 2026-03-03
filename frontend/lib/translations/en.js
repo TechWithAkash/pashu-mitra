@@ -227,6 +227,67 @@ const en = {
   "notFound.title": "Page not found",
   "notFound.message": "The page you are looking for does not exist.",
   "notFound.goHome": "Go Home",
+
+  // Testimonials section
+  "testimonials.badge": "What Farmers Say",
+  "testimonials.heading": "Trusted by",
+  "testimonials.headingHighlight": "farmers across India",
+  "testimonials.subtext": "Hear from farmers and veterinarians who use Pashumitra to protect their herds.",
+  "testimonials.quote1": "I spotted Lumpy Skin Disease on my cow within seconds. The visual explanation showed me exactly where the problem was. This app is a lifesaver for small farmers like me.",
+  "testimonials.name1": "Rajesh Patil",
+  "testimonials.role1": "Dairy Farmer, Maharashtra",
+  "testimonials.quote2": "As a village veterinarian, I recommend Pashumitra to every farmer I visit. The AI detection is remarkably accurate and the advice is practical.",
+  "testimonials.name2": "Dr. Sunita Sharma",
+  "testimonials.role2": "Veterinarian, Rajasthan",
+  "testimonials.quote3": "My father lost cattle to LSD before we knew what it was. Now with Pashumitra, I can check my animals anytime from my phone. Peace of mind for my family.",
+  "testimonials.name3": "Pradeep Singh",
+  "testimonials.role3": "Cattle Owner, Uttar Pradesh",
+
+  // FAQ section
+  "faq.badge": "Common Questions",
+  "faq.heading": "Frequently Asked",
+  "faq.headingHighlight": "Questions",
+  "faq.q1": "Do I need internet to use Pashumitra?",
+  "faq.a1": "Yes, an internet connection is needed to upload the photo and receive AI analysis. However, the app works well even on slow 2G/3G connections since photos are optimized before upload.",
+  "faq.q2": "Is Pashumitra free to use?",
+  "faq.a2": "Yes, Pashumitra is completely free for farmers. You can create an account and start checking your animals at no cost.",
+  "faq.q3": "How accurate is the disease detection?",
+  "faq.a3": "Our AI model achieves over 92% accuracy in detecting Lumpy Skin Disease. Visual explanations show you exactly where the AI found signs of disease.",
+  "faq.q4": "What kind of photos work best?",
+  "faq.a4": "Take clear, well-lit photos of the skin area you are concerned about. Ensure the camera is steady, the area is in focus, and there is good daylight. Close-up photos of lumps or lesions give the best results.",
+  "faq.q5": "Can veterinarians use this tool?",
+  "faq.a5": "Absolutely. Pashumitra is designed for both farmers and veterinarians. Vets get the same AI analysis with detailed visual explanations to support their clinical assessment.",
+  "faq.q6": "What should I do if the app detects disease?",
+  "faq.a6": "If disease signs are detected, the app provides step-by-step advice. We recommend isolating the animal, contacting your local veterinarian immediately, and sharing the report via WhatsApp for quick consultation.",
+
+  // About LSD (i18n fix for hardcoded strings)
+  "about.lsd1Title": "What is LSD?",
+  "about.lsd1Text": "Lumpy Skin Disease is a viral infection caused by the Lumpy Skin Disease Virus (LSDV), affecting cattle worldwide. It causes nodular skin lesions, fever, and reduced milk production.",
+  "about.lsd2Title": "Why Early Detection?",
+  "about.lsd2Text": "Early detection is critical. LSD spreads rapidly through insect vectors. Identifying infected animals early allows for isolation, reducing herd-wide outbreaks and economic losses.",
+  "about.lsd3Title": "Symptoms to Watch For",
+  "about.lsd3Text": "Key symptoms include firm, round skin nodules (2-5 cm), fever, swollen lymph nodes, reduced appetite, and drop in milk yield. Skin lesions are the most visible diagnostic marker.",
+  "about.lsd4Title": "Global Impact",
+  "about.lsd4Text": "LSD has spread across Africa, the Middle East, Europe, and Asia, causing billions in economic losses. It is an OIE-listed disease requiring immediate notification.",
+
+  // Hero enhancement
+  "landing.noCreditCard": "No credit card required. Free for all farmers.",
+
+  // Footer section headers
+  "footer.product": "Product",
+  "footer.support": "Support",
+  "footer.legal": "Legal",
+  "footer.privacy": "Privacy Policy",
+  "footer.terms": "Terms of Service",
+  "footer.contact": "Contact Us",
+  "footer.help": "Help Center",
+  "footer.description": "AI-powered cattle health detection platform helping farmers protect their herds.",
+
+  // Auth strength labels
+  "auth.strengthWeak": "Weak",
+  "auth.strengthFair": "Fair",
+  "auth.strengthGood": "Good",
+  "auth.strengthStrong": "Strong",
 };
 
 export default en;

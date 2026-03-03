@@ -2,8 +2,10 @@
 
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
-import { Camera, BrainCircuit, ClipboardCheck } from "lucide-react";
 import { useLanguage } from "@/context/language-context";
+import StepCamera from "@/components/illustrations/step-camera";
+import StepAiAnalysis from "@/components/illustrations/step-ai-analysis";
+import StepResults from "@/components/illustrations/step-results";
 
 const containerVariants = {
   hidden: {},
@@ -33,19 +35,19 @@ export default function HowItWorksSection() {
 
   const steps = [
     {
-      icon: Camera,
+      Illustration: StepCamera,
       number: "01",
       titleKey: "howItWorks.step1Title",
       descKey: "howItWorks.step1Desc",
     },
     {
-      icon: BrainCircuit,
+      Illustration: StepAiAnalysis,
       number: "02",
       titleKey: "howItWorks.step2Title",
       descKey: "howItWorks.step2Desc",
     },
     {
-      icon: ClipboardCheck,
+      Illustration: StepResults,
       number: "03",
       titleKey: "howItWorks.step3Title",
       descKey: "howItWorks.step3Desc",
@@ -90,25 +92,27 @@ export default function HowItWorksSection() {
           animate={isInView ? "visible" : "hidden"}
           className="grid md:grid-cols-3 gap-8 lg:gap-12 relative"
         >
-          {/* Connecting line on desktop */}
-          <div className="hidden md:block absolute top-[60px] left-[16%] right-[16%] h-px bg-gradient-to-r from-transparent via-border to-transparent" />
+          {/* Connecting gradient line on desktop */}
+          <div className="hidden md:block absolute top-[70px] left-[16%] right-[16%] h-[2px]">
+            <div className="w-full h-full bg-gradient-to-r from-primary/30 via-primary/50 to-primary/30 rounded-full" />
+          </div>
 
           {steps.map((step) => {
-            const Icon = step.icon;
+            const { Illustration } = step;
             return (
               <motion.div
                 key={step.number}
                 variants={stepVariants}
                 className="relative flex flex-col items-center text-center"
               >
-                {/* Step number & icon container */}
+                {/* Step illustration in circular container */}
                 <div className="relative mb-8">
-                  <div className="w-[120px] h-[120px] rounded-3xl bg-card shadow-premium border border-border/50 flex items-center justify-center relative">
-                    <Icon className="h-10 w-10 text-primary/80" />
+                  <div className="w-[110px] h-[110px] sm:w-[140px] sm:h-[140px] rounded-full bg-card shadow-premium border border-border/50 flex items-center justify-center relative overflow-hidden">
+                    <Illustration className="w-[75px] h-[75px] sm:w-[100px] sm:h-[100px]" />
                   </div>
                   {/* Step number badge */}
-                  <div className="absolute -top-3 -right-3 w-10 h-10 rounded-2xl bg-card shadow-elevated border border-border/50 flex items-center justify-center">
-                    <span className="text-sm font-bold gradient-text">
+                  <div className="absolute -top-2 -right-2 w-10 h-10 rounded-full bg-primary text-primary-foreground shadow-elevated flex items-center justify-center">
+                    <span className="text-sm font-bold">
                       {step.number}
                     </span>
                   </div>

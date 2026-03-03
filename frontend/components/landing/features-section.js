@@ -43,43 +43,55 @@ export default function FeaturesSection() {
       icon: Zap,
       titleKey: "features.f1Title",
       descKey: "features.f1Desc",
-      color: "bg-emerald-500/10 text-emerald-600",
+      color: "text-emerald-600",
       iconBg: "bg-emerald-50",
+      borderColor: "border-emerald-200",
+      span: "sm:col-span-2",
     },
     {
       icon: Layers,
       titleKey: "features.f2Title",
       descKey: "features.f2Desc",
-      color: "bg-blue-500/10 text-blue-600",
+      color: "text-blue-600",
       iconBg: "bg-blue-50",
+      borderColor: "border-blue-200",
+      span: "sm:row-span-2",
     },
     {
       icon: History,
       titleKey: "features.f3Title",
       descKey: "features.f3Desc",
-      color: "bg-violet-500/10 text-violet-600",
+      color: "text-violet-600",
       iconBg: "bg-violet-50",
+      borderColor: "border-violet-200",
+      span: "",
     },
     {
       icon: Users,
       titleKey: "features.f4Title",
       descKey: "features.f4Desc",
-      color: "bg-amber-500/10 text-amber-600",
+      color: "text-amber-600",
       iconBg: "bg-amber-50",
+      borderColor: "border-amber-200",
+      span: "",
     },
     {
       icon: Stethoscope,
       titleKey: "features.f5Title",
       descKey: "features.f5Desc",
-      color: "bg-rose-500/10 text-rose-600",
+      color: "text-rose-600",
       iconBg: "bg-rose-50",
+      borderColor: "border-rose-200",
+      span: "",
     },
     {
       icon: ShieldCheck,
       titleKey: "features.f6Title",
       descKey: "features.f6Desc",
-      color: "bg-teal-500/10 text-teal-600",
+      color: "text-teal-600",
       iconBg: "bg-teal-50",
+      borderColor: "border-teal-200",
+      span: "sm:col-span-2 lg:col-span-1",
     },
   ];
 
@@ -114,12 +126,12 @@ export default function FeaturesSection() {
           </p>
         </motion.div>
 
-        {/* Feature cards grid */}
+        {/* Bento grid */}
         <motion.div
           variants={containerVariants}
           initial="hidden"
           animate={isInView ? "visible" : "hidden"}
-          className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6"
+          className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5"
         >
           {features.map((feature) => {
             const Icon = feature.icon;
@@ -127,12 +139,12 @@ export default function FeaturesSection() {
               <motion.div
                 key={feature.titleKey}
                 variants={cardVariants}
-                className="group relative bg-card rounded-2xl p-7 shadow-premium hover:shadow-elevated transition-all duration-500 border border-border/50 hover:border-primary/15"
+                className={`group relative bg-card rounded-2xl p-7 shadow-premium border border-border/50 hover:shadow-elevated hover:-translate-y-1 transition-all duration-500 hover:border-primary/15 ${feature.span}`}
               >
                 <div
-                  className={`inline-flex p-3 rounded-2xl ${feature.iconBg} mb-5 transition-transform duration-300 group-hover:scale-110`}
+                  className={`inline-flex p-3.5 rounded-2xl ${feature.iconBg} border ${feature.borderColor} mb-5 transition-transform duration-300 group-hover:scale-110`}
                 >
-                  <Icon className={`h-5 w-5 ${feature.color.split(" ")[1]}`} />
+                  <Icon className={`h-6 w-6 ${feature.color}`} />
                 </div>
                 <h3 className="text-lg font-semibold tracking-tight mb-2.5">
                   {t(feature.titleKey)}
