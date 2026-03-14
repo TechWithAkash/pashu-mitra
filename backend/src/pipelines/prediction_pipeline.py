@@ -12,6 +12,7 @@ from src.logger import logger
 from src.utils import (
     PredictionConfig,
     check_image_quality,
+    check_image_content,
     generate_gradcam,
     load_json,
     overlay_gradcam,
@@ -102,6 +103,10 @@ class PredictionPipeline:
             is_valid, quality_reason = self.validate_image(image_bytes)
             quality_warning = None if is_valid else quality_reason
 
+            # Content check — detect non-cattle images (cartoons, graphics, etc.)
+            img_for_check = np.array(Image.open(io.BytesIO(image_bytes)).convert("RGB"))
+            is_natural, content_reason = check_image_content(img_for_check)
+
             # Preprocess
             img_array, _ = self.preprocess_image(image_bytes)
 
@@ -111,14 +116,20 @@ class PredictionPipeline:
             confidence = float(predictions[0][predicted_index])
             predicted_class = self.config.class_names[predicted_index]
 
+            # If content check failed, override confidence and set warning
+            if not is_natural:
+                quality_warning = content_reason
+                confidence = min(confidence, 0.4)
+                predicted_class = self.config.class_names[predicted_index]
+
             # Probabilities for all classes
             probabilities = {
                 name: float(predictions[0][i])
                 for i, name in enumerate(self.config.class_names)
             }
 
-            # Advice
-            advice = self._generate_advice(predicted_class, confidence)
+            # Advice (use the possibly-capped confidence)
+            advice = self._generate_advice(predicted_class, confidence, is_natural)
 
             result = {
                 "prediction": predicted_class,
@@ -178,8 +189,17 @@ class PredictionPipeline:
         except Exception as e:
             raise CustomException(str(e), sys)
 
-    def _generate_advice(self, prediction: str, confidence: float) -> str:
+    def _generate_advice(self, prediction: str, confidence: float, is_natural: bool = True) -> str:
         """Generate simple, numbered advice steps for farmers."""
+        if not is_natural:
+            return (
+                "1. This does not look like an animal photo.\n"
+                "2. Please upload a clear photo of your cattle's skin.\n"
+                "3. Make sure the photo shows the skin area clearly.\n"
+                "4. Use good daylight and keep the camera steady.\n"
+                "5. Try again with a proper photo of your animal."
+            )
+
         threshold = self.config.confidence_threshold
 
         if "lumpy" in prediction.lower():

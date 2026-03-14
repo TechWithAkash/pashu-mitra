@@ -43,7 +43,7 @@ export default function Footer() {
               <div className="p-1.5 bg-primary rounded-xl">
                 <Shield className="h-4 w-4 text-primary-foreground" />
               </div>
-              <span className="font-bold tracking-tight gradient-text text-lg">
+              <span className="font-bold tracking-tight text-primary text-lg">
                 Pashumitra
               </span>
             </div>

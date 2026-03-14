@@ -101,6 +101,7 @@ const en = {
 
   // Quality warning
   "result.qualityWarning": "Photo Quality Issue",
+  "result.notAnimalImage": "This does not look like an animal photo. Please upload a clear photo of your cattle's skin.",
 
   // GradCAM
   "gradcam.title": "Where we looked",
@@ -134,34 +135,40 @@ const en = {
   "history.loading": "Loading your results...",
 
   // Landing page
-  "landing.badge": "AI-Powered Health Check",
-  "landing.heading1": "Detect cattle disease",
-  "landing.heading2": "before it spreads",
-  "landing.subtext": "Upload a photo, get an instant health check with visual explanations, and take action — all in seconds.",
-  "landing.startFree": "Start Free Check",
-  "landing.learnMore": "Learn More",
+  "landing.badge": "AI-Powered Livestock Health",
+  "landing.heading1": "Detect Cattle Disease Early.",
+  "landing.heading2": "Protect Your Herd.",
+  "landing.subtext": "Upload a photo of your cattle and get instant AI analysis for Lumpy Skin Disease along with practical precautions.",
+  "landing.startFree": "Scan Your Cattle",
+  "landing.learnMore": "See How It Works",
   "landing.trust1": "92%+ Accuracy",
   "landing.trust2": "Instant Results",
   "landing.trust3": "Visual Explanations",
 
-  // Features
-  "features.badge": "Features",
-  "features.heading": "Everything you need for",
-  "features.headingHighlight": "cattle health",
-  "features.headingSuffix": "monitoring",
-  "features.subtext": "A complete health check tool built with AI for livestock disease detection.",
-  "features.f1Title": "Instant Health Check",
-  "features.f1Desc": "Upload a photo and receive an accurate health check within seconds.",
-  "features.f2Title": "Visual Explanations",
-  "features.f2Desc": "See exactly where we looked on the photo. Visual highlights make every result trustworthy.",
-  "features.f3Title": "Check-up History",
-  "features.f3Desc": "Track every result over time. Monitor your herd's health trends and keep records.",
-  "features.f4Title": "For Farmers & Vets",
-  "features.f4Desc": "Built for farmers, veterinarians, and farm managers with the right tools for each user.",
-  "features.f5Title": "Actionable Advice",
-  "features.f5Desc": "Every result includes clear, step-by-step advice on what to do next.",
-  "features.f6Title": "Photo Quality Checks",
-  "features.f6Desc": "Automatic checks for blur, brightness, and clarity ensure photos meet standards before analysis.",
+  // Problem & Benefits Section
+  "features.badge": "Why Use Pashumitra?",
+  "features.heading": "Solving Real Problems for",
+  "features.headingHighlight": "Livestock Farmers",
+  "features.headingSuffix": "",
+  "features.subtext": "Detect disease before it spreads and protect your livelihood with simple AI tools.",
+
+  "features.p1Title": "Late Disease Detection",
+  "features.p1Desc": "Farmers often notice symptoms too late, leading to severe illness and rapid spread across the herd.",
+
+  "features.p2Title": "Loss of Income & Milk",
+  "features.p2Desc": "Untreated cattle suffer from severe weight loss and a massive drop in milk production.",
+
+  "features.p3Title": "Veterinarian Shortages",
+  "features.p3Desc": "Rural areas lack immediate access to veterinary care. We bridge that gap instantly.",
+
+  "features.b1Title": "Faster Disease Detection",
+  "features.b1Desc": "Upload a photo and know instantly if your cattle shows signs of illness.",
+
+  "features.b2Title": "Reduced Cattle Loss",
+  "features.b2Desc": "Act early, isolate infected animals, and prevent the loss of your valuable livestock.",
+
+  "features.b3Title": "Very Easy to Use",
+  "features.b3Desc": "Designed simply for farmers. Take a photo, upload it, and get advice in your language.",
 
   // How it works
   "howItWorks.badge": "How It Works",
@@ -188,11 +195,11 @@ const en = {
   "about.subtext": "Knowledge is the first line of defense against livestock disease.",
 
   // CTA
-  "cta.heading": "Ready to protect",
-  "cta.headingHighlight": "your herd",
-  "cta.questionMark": "?",
-  "cta.subtext": "Join farmers and veterinarians using AI-powered health checks for early disease detection. Start checking for free.",
-  "cta.createAccount": "Create Free Account",
+  "cta.heading": "Protect Your Cattle",
+  "cta.headingHighlight": "Before It's Too Late",
+  "cta.questionMark": "",
+  "cta.subtext": "Join farmers and veterinarians using AI-powered health checks for early disease detection.",
+  "cta.createAccount": "Start Free Disease Scan",
   "cta.signIn": "Sign In",
 
   // Footer
@@ -284,15 +291,20 @@ const en = {
   "faq.q6": "What should I do if the app detects disease?",
   "faq.a6": "If disease signs are detected, the app provides step-by-step advice. We recommend isolating the animal, contacting your local veterinarian immediately, and sharing the report via WhatsApp for quick consultation.",
 
-  // About LSD (i18n fix for hardcoded strings)
-  "about.lsd1Title": "What is LSD?",
-  "about.lsd1Text": "Lumpy Skin Disease is a viral infection caused by the Lumpy Skin Disease Virus (LSDV), affecting cattle worldwide. It causes nodular skin lesions, fever, and reduced milk production.",
-  "about.lsd2Title": "Why Early Detection?",
-  "about.lsd2Text": "Early detection is critical. LSD spreads rapidly through insect vectors. Identifying infected animals early allows for isolation, reducing herd-wide outbreaks and economic losses.",
-  "about.lsd3Title": "Symptoms to Watch For",
-  "about.lsd3Text": "Key symptoms include firm, round skin nodules (2-5 cm), fever, swollen lymph nodes, reduced appetite, and drop in milk yield. Skin lesions are the most visible diagnostic marker.",
-  "about.lsd4Title": "Global Impact",
-  "about.lsd4Text": "LSD has spread across Africa, the Middle East, Europe, and Asia, causing billions in economic losses. It is an OIE-listed disease requiring immediate notification.",
+  // Knowledge Guides
+  "about.badge": "Farmer Knowledge Hub",
+  "about.heading": "Helpful Guides for",
+  "about.headingHighlight": "Livestock Health",
+  "about.subtext": "Learn how to spot, prevent, and protect your cattle from diseases.",
+
+  "about.lsd1Title": "Symptoms to Watch For",
+  "about.lsd1Text": "Look for round, firm skin lumps (2-5cm), high fever, swollen lymph nodes, watering eyes, and a sudden drop in milk yield. Early spotting saves lives.",
+
+  "about.lsd2Title": "Prevention Methods",
+  "about.lsd2Text": "Vaccinate your cattle yearly. Control mosquitoes, ticks, and biting flies using safe repellents. Keep new animals isolated before mixing them into the herd.",
+
+  "about.lsd3Title": "Farm Hygiene Tips",
+  "about.lsd3Text": "Clean water troughs daily. Dispose of manure properly to prevent insect breeding. Maintain well-ventilated, dry cattle sheds to minimize disease spread.",
 
   // Hero enhancement
   "landing.noCreditCard": "No credit card required. Free for all farmers.",

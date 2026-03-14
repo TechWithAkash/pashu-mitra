@@ -45,21 +45,21 @@ export default function Navbar() {
             className={cn(
               "p-1.5 rounded-xl transition-all duration-300",
               scrolled
-                ? "bg-primary shadow-glow"
-                : "bg-white/10 backdrop-blur-sm border border-white/20"
+                ? "bg-primary shadow-sm"
+                : "bg-primary shadow-sm"
             )}
           >
             <Shield
               className={cn(
-                "h-5 w-5 transition-colors duration-300",
-                scrolled ? "text-primary-foreground" : "text-white"
+                "h-5 w-5 transition-colors duration-300 relative z-10",
+                scrolled ? "text-primary-foreground" : "text-primary-foreground"
               )}
             />
           </div>
           <span
             className={cn(
               "text-xl font-bold tracking-tight transition-colors duration-300",
-              scrolled ? "gradient-text" : "text-white"
+              scrolled ? "text-primary" : "text-primary"
             )}
           >
             Pashumitra
@@ -76,9 +76,9 @@ export default function Navbar() {
                 className={cn(
                   "text-sm font-medium transition-all duration-300 relative",
                   scrolled
-                    ? "text-muted-foreground hover:text-foreground"
-                    : "text-white/70 hover:text-white",
-                  "after:absolute after:bottom-[-4px] after:left-0 after:h-[2px] after:w-0 after:bg-current after:transition-all after:duration-300 hover:after:w-full"
+                    ? "text-gray-600 hover:text-primary"
+                    : "text-gray-700 hover:text-primary",
+                  "after:absolute after:bottom-[-4px] after:left-0 after:h-[2px] after:w-0 after:bg-primary after:transition-all after:duration-300 hover:after:w-full"
                 )}
               >
                 {t(link.labelKey)}
@@ -94,8 +94,8 @@ export default function Navbar() {
               className={cn(
                 "text-sm font-medium transition-all duration-300",
                 scrolled
-                  ? "text-muted-foreground hover:text-foreground"
-                  : "text-white/80 hover:text-white hover:bg-white/10"
+                  ? "text-gray-600 hover:text-primary"
+                  : "text-gray-700 hover:text-primary bg-white/50"
               )}
             >
               <Link href="/login">{t("common.signIn")}</Link>
@@ -106,8 +106,8 @@ export default function Navbar() {
               className={cn(
                 "text-sm font-medium rounded-full px-5 transition-all duration-300",
                 scrolled
-                  ? "bg-primary text-primary-foreground hover:shadow-glow"
-                  : "bg-white text-primary hover:bg-white/90 hover:shadow-[0_0_24px_rgba(255,255,255,0.2)]"
+                  ? "bg-primary text-primary-foreground hover:shadow-md"
+                  : "bg-primary text-primary-foreground hover:bg-primary/90 hover:shadow-md"
               )}
             >
               <Link href="/signup">{t("common.createAccount")}</Link>
@@ -122,7 +122,7 @@ export default function Navbar() {
             "md:hidden p-2 rounded-lg transition-colors",
             scrolled
               ? "text-foreground hover:bg-muted"
-              : "text-white hover:bg-white/10"
+              : "text-foreground hover:bg-white"
           )}
         >
           {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}

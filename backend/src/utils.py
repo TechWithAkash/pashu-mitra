@@ -130,6 +130,84 @@ def check_image_quality(
 
 
 # ---------------------------------------------------------------------------
+# Image Content Check (non-animal / cartoon / graphic rejection)
+# ---------------------------------------------------------------------------
+
+def check_image_content(img_array: np.ndarray) -> tuple:
+    """
+    Detect non-natural images (cartoons, graphics, screenshots) that are
+    clearly not photographs of cattle skin.
+
+    Uses pixel-level color analysis rather than image-wide averages:
+      1. Highly-saturated pixel ratio — cartoons have many vivid pixels.
+      2. Unnatural dominant color ratio — bright blue, green, purple, neon.
+      3. Natural skin-tone ratio — cattle are brown/tan/gray/white/black;
+         if too few pixels match, the image is likely not cattle.
+
+    Returns (is_natural: bool, reason: str).
+    """
+    try:
+        NOT_ANIMAL_MSG = (
+            "This does not appear to be an animal photo. "
+            "Please upload a clear photo of your cattle's skin."
+        )
+
+        # Ensure RGB uint8
+        if img_array.dtype != np.uint8:
+            img_array = np.uint8(np.clip(img_array, 0, 255))
+
+        hsv = cv2.cvtColor(img_array, cv2.COLOR_RGB2HSV)
+        h = hsv[:, :, 0].astype(np.int16)   # 0-179 in OpenCV
+        s = hsv[:, :, 1].astype(np.int16)   # 0-255
+        v = hsv[:, :, 2].astype(np.int16)   # 0-255
+        total_pixels = h.size
+
+        # ----- Check 1: Highly saturated pixel ratio -----
+        # Natural cattle photos rarely have >20% of pixels with S > 150.
+        # Cartoons (Doraemon, anime, etc.) have large vivid-color regions.
+        high_sat_ratio = float(np.sum(s > 150)) / total_pixels
+        if high_sat_ratio > 0.20:
+            return False, NOT_ANIMAL_MSG
+
+        # ----- Check 2: Unnatural dominant colors -----
+        # Bright blue (H 90-130), bright green (H 35-80), bright purple (H 130-170)
+        # with moderate-to-high saturation (S > 60) are unnatural for cattle skin.
+        unnatural = (
+            ((h >= 90) & (h <= 130) & (s > 60)) |   # blue
+            ((h >= 35) & (h <= 80) & (s > 130)) |   # green (high threshold — grass is S 60-120)
+            ((h >= 130) & (h <= 170) & (s > 60))     # purple / magenta
+        )
+        unnatural_ratio = float(np.sum(unnatural)) / total_pixels
+        if unnatural_ratio > 0.25:
+            return False, NOT_ANIMAL_MSG
+
+        # ----- Check 3: Natural skin-tone ratio -----
+        # Cattle skin tones: brown/tan, gray, white, black, reddish-brown.
+        # If less than 25% of the image matches, it's likely not cattle.
+        natural = (
+            # Brown / tan / reddish-brown (H 0-30, moderate S&V)
+            ((h >= 0) & (h <= 30) & (s >= 15) & (s <= 220) & (v >= 30) & (v <= 240)) |
+            # Green / grass (common background in cattle photos)
+            ((h >= 30) & (h <= 85) & (s >= 20) & (s <= 160) & (v >= 30) & (v <= 230)) |
+            # Gray tones (any hue, low saturation)
+            ((s < 45) & (v >= 25) & (v <= 225)) |
+            # White (very low saturation, high value)
+            ((s < 30) & (v > 200)) |
+            # Dark / black (low value)
+            (v < 50)
+        )
+        natural_ratio = float(np.sum(natural)) / total_pixels
+        if natural_ratio < 0.25:
+            return False, NOT_ANIMAL_MSG
+
+        return True, "OK"
+
+    except Exception as e:
+        # If content check fails, don't block — let prediction proceed
+        return True, f"Content check skipped: {str(e)}"
+
+
+# ---------------------------------------------------------------------------
 # Grad-CAM
 # ---------------------------------------------------------------------------
 
